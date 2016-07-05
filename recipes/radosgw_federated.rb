@@ -27,8 +27,8 @@ service_type = node['ceph']['mon']['init_style']
 base_key = "/etc/ceph/#{node['ceph']['cluster']}.client.admin.keyring"
 
 if node['ceph']['pools']['radosgw']['federated_enable']
-  Chef::Log.info "RADOSGW - FEDERATED Version..."
-  node['ceph']['pools']['radosgw']['federated_zone_instances'].each do | inst |
+  Chef::Log.info 'RADOSGW - FEDERATED Version...'
+  node['ceph']['pools']['radosgw']['federated_zone_instances'].each do |inst|
     # keyring = "/etc/ceph/#{node['ceph']['cluster']}.client.radosgw.#{inst['region']}-#{inst['name']}.keyring"
     keyring = "/etc/ceph/#{node['ceph']['cluster']}.client.radosgw.keyring"
 
@@ -120,10 +120,10 @@ if node['ceph']['pools']['radosgw']['federated_enable']
       source 'radosgw-federated-zone.json.erb'
       variables lazy {
         {
-          :region => "#{inst['region']}",
-          :zone => "#{inst['name']}",
-          :secret_key => "",
-          :access_key => ""
+          :region => (inst['region']).to_s,
+          :zone => (inst['name']).to_s,
+          :secret_key => '',
+          :access_key => ''
         }
       }
     end
@@ -147,7 +147,7 @@ if node['ceph']['pools']['radosgw']['federated_enable']
       EOH
     end
 
-    # TODO (maybe): Update the keys for the zones. This will allow each one to sync with the other.
+    # TODO: (maybe): Update the keys for the zones. This will allow each one to sync with the other.
     # ceph_chef_secure_password(20)
     # ceph_chef_secure_password(40)
 
